@@ -6,27 +6,25 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
+
 using IMAPI2.Interop;
 using IMAPI2.MediaItem;
 
-
 namespace BurnMedia
 {
-
     public partial class MainForm : Form
     {
         private const string ClientName = "BurnMedia";
 
-        Int64 _totalDiscSize;
+        long _totalDiscSize;
 
         private bool _isBurning;
         private bool _isFormatting;
-        private IMAPI_BURN_VERIFICATION_LEVEL _verificationLevel = 
-            IMAPI_BURN_VERIFICATION_LEVEL.IMAPI_BURN_VERIFICATION_NONE;
+        private IMAPI_BURN_VERIFICATION_LEVEL _verificationLevel = IMAPI_BURN_VERIFICATION_LEVEL.IMAPI_BURN_VERIFICATION_NONE;
         private bool _closeMedia;
         private bool _ejectMedia;
 
-        private BurnData _burnData = new BurnData();
+        private readonly BurnData BurnData = new BurnData();
 
         public MainForm()
         {
@@ -34,15 +32,13 @@ namespace BurnMedia
         }
 
         /// <summary>
-        /// Initialize the form
+        /// Initialize the form|初始化本窗口
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //
-            // Determine the current recording devices
-            //
+            //Determine the current recording devices
             MsftDiscMaster2 discMaster = null;
             try
             {
@@ -55,18 +51,16 @@ namespace BurnMedia
                     var discRecorder2 = new MsftDiscRecorder2();
                     discRecorder2.InitializeDiscRecorder(uniqueRecorderId);
 
-                    devicesComboBox.Items.Add(discRecorder2);
+                    ComboBox_Devices.Items.Add(discRecorder2);
                 }
-                if (devicesComboBox.Items.Count > 0)
+                if (ComboBox_Devices.Items.Count > 0)
                 {
-                    devicesComboBox.SelectedIndex = 0;
+                    ComboBox_Devices.SelectedIndex = 0;
                 }
             }
             catch (COMException ex)
             {
-                MessageBox.Show(ex.Message,
-                    string.Format("Error:{0} - Please install IMAPI2", ex.ErrorCode),
-                    MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                MessageBox.Show(ex.Message, string.Format("Error:{0} - Please install IMAPI2", ex.ErrorCode), MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
             finally
@@ -77,14 +71,10 @@ namespace BurnMedia
                 }
             }
 
-
-            //
             // Create the volume label based on the current date
-            //
-            DateTime now = DateTime.Now;
-            textBoxLabel.Text = now.Year + "_" + now.Month + "_" + now.Day;
+            TextBox_VolumeLabel.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-            labelStatusText.Text = string.Empty;
+            Label_Status.Text = string.Empty;
             labelFormatStatusText.Text = string.Empty;
 
             //
@@ -100,7 +90,7 @@ namespace BurnMedia
             //
             // Release the disc recorder items
             //
-            foreach (MsftDiscRecorder2 discRecorder2 in devicesComboBox.Items)
+            foreach (MsftDiscRecorder2 discRecorder2 in ComboBox_Devices.Items)
             {
                 if (discRecorder2 != null)
                 {
@@ -119,27 +109,24 @@ namespace BurnMedia
         /// <param name="e"></param>
         private void devicesComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (devicesComboBox.SelectedIndex == -1)
+            if (ComboBox_Devices.SelectedIndex == -1)
             {
                 return;
             }
 
             var discRecorder =
-                (IDiscRecorder2)devicesComboBox.Items[devicesComboBox.SelectedIndex];
+                (IDiscRecorder2)ComboBox_Devices.Items[ComboBox_Devices.SelectedIndex];
 
-            supportedMediaLabel.Text = string.Empty;
+            Label_SupportedMedia.Text = string.Empty;
 
-            //
-            // Verify recorder is supported
-            //
+            //Verify recorder is supported
             IDiscFormat2Data discFormatData = null;
             try
             {
                 discFormatData = new MsftDiscFormat2Data();
                 if (!discFormatData.IsRecorderSupported(discRecorder))
                 {
-                    MessageBox.Show("Recorder not supported", ClientName,
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Recorder not supported", ClientName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -156,11 +143,11 @@ namespace BurnMedia
                     supportedMediaTypes.Append(profileName);
                 }
 
-                supportedMediaLabel.Text = supportedMediaTypes.ToString();
+                Label_SupportedMedia.Text = supportedMediaTypes.ToString();
             }
             catch (COMException)
             {
-                supportedMediaLabel.Text = "Error getting supported types";
+                Label_SupportedMedia.Text = "Error getting supported types";
             }
             finally
             {
@@ -345,13 +332,13 @@ namespace BurnMedia
 
         private void buttonDetectMedia_Click(object sender, EventArgs e)
         {
-            if (devicesComboBox.SelectedIndex == -1)
+            if (ComboBox_Devices.SelectedIndex == -1)
             {
                 return;
             }
 
             var discRecorder =
-                (IDiscRecorder2)devicesComboBox.Items[devicesComboBox.SelectedIndex];
+                (IDiscRecorder2)ComboBox_Devices.Items[ComboBox_Devices.SelectedIndex];
 
             MsftFileSystemImage fileSystemImage = null;
             MsftDiscFormat2Data discFormatData = null;
@@ -431,7 +418,7 @@ namespace BurnMedia
                 labelTotalSize.Text = "0MB";
                 return;
             }
-            
+
             labelTotalSize.Text = _totalDiscSize < 1000000000 ?
                 string.Format("{0}MB", _totalDiscSize / 1000000) :
                 string.Format("{0:F2}GB", (float)_totalDiscSize / 1000000000.0);
@@ -478,7 +465,7 @@ namespace BurnMedia
         /// <param name="e"></param>
         private void buttonBurn_Click(object sender, EventArgs e)
         {
-            if (devicesComboBox.SelectedIndex == -1)
+            if (ComboBox_Devices.SelectedIndex == -1)
             {
                 return;
             }
@@ -497,10 +484,10 @@ namespace BurnMedia
                 EnableBurnUI(false);
 
                 var discRecorder =
-                    (IDiscRecorder2)devicesComboBox.Items[devicesComboBox.SelectedIndex];
-                _burnData.uniqueRecorderId = discRecorder.ActiveDiscRecorder;
+                    (IDiscRecorder2)ComboBox_Devices.Items[ComboBox_Devices.SelectedIndex];
+                BurnData.uniqueRecorderId = discRecorder.ActiveDiscRecorder;
 
-                backgroundBurnWorker.RunWorkerAsync(_burnData);
+                backgroundBurnWorker.RunWorkerAsync(BurnData);
             }
         }
 
@@ -527,11 +514,11 @@ namespace BurnMedia
                 // Create and initialize the IDiscFormat2Data
                 //
                 discFormatData = new MsftDiscFormat2Data
-                    {
-                        Recorder = discRecorder,
-                        ClientName = ClientName,
-                        ForceMediaToBeClosed = _closeMedia
-                    };
+                {
+                    Recorder = discRecorder,
+                    ClientName = ClientName,
+                    ForceMediaToBeClosed = _closeMedia
+                };
 
                 //
                 // Set the verification level
@@ -636,27 +623,27 @@ namespace BurnMedia
 
             var eventArgs = (IDiscFormat2DataEventArgs)progress;
 
-            _burnData.task = BURN_MEDIA_TASK.BURN_MEDIA_TASK_WRITING;
+            BurnData.task = BURN_MEDIA_TASK.BURN_MEDIA_TASK_WRITING;
 
             // IDiscFormat2DataEventArgs Interface
-            _burnData.elapsedTime = eventArgs.ElapsedTime;
-            _burnData.remainingTime = eventArgs.RemainingTime;
-            _burnData.totalTime = eventArgs.TotalTime;
+            BurnData.elapsedTime = eventArgs.ElapsedTime;
+            BurnData.remainingTime = eventArgs.RemainingTime;
+            BurnData.totalTime = eventArgs.TotalTime;
 
             // IWriteEngine2EventArgs Interface
-            _burnData.currentAction = eventArgs.CurrentAction;
-            _burnData.startLba = eventArgs.StartLba;
-            _burnData.sectorCount = eventArgs.SectorCount;
-            _burnData.lastReadLba = eventArgs.LastReadLba;
-            _burnData.lastWrittenLba = eventArgs.LastWrittenLba;
-            _burnData.totalSystemBuffer = eventArgs.TotalSystemBuffer;
-            _burnData.usedSystemBuffer = eventArgs.UsedSystemBuffer;
-            _burnData.freeSystemBuffer = eventArgs.FreeSystemBuffer;
+            BurnData.currentAction = eventArgs.CurrentAction;
+            BurnData.startLba = eventArgs.StartLba;
+            BurnData.sectorCount = eventArgs.SectorCount;
+            BurnData.lastReadLba = eventArgs.LastReadLba;
+            BurnData.lastWrittenLba = eventArgs.LastWrittenLba;
+            BurnData.totalSystemBuffer = eventArgs.TotalSystemBuffer;
+            BurnData.usedSystemBuffer = eventArgs.UsedSystemBuffer;
+            BurnData.freeSystemBuffer = eventArgs.FreeSystemBuffer;
 
             //
             // Report back to the UI
             //
-            backgroundBurnWorker.ReportProgress(0, _burnData);
+            backgroundBurnWorker.ReportProgress(0, BurnData);
         }
 
         /// <summary>
@@ -666,7 +653,7 @@ namespace BurnMedia
         /// <param name="e"></param>
         private void backgroundBurnWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            labelStatusText.Text = (int)e.Result == 0 ? "Finished Burning Disc!" : "Error Burning Disc!";
+            Label_Status.Text = (int)e.Result == 0 ? "Finished Burning Disc!" : "Error Burning Disc!";
             statusProgressBar.Value = 0;
 
             _isBurning = false;
@@ -683,7 +670,7 @@ namespace BurnMedia
             buttonBurn.Text = enable ? "&Burn" : "&Cancel";
             buttonDetectMedia.Enabled = enable;
 
-            devicesComboBox.Enabled = enable;
+            ComboBox_Devices.Enabled = enable;
             listBoxFiles.Enabled = enable;
 
             buttonAddFiles.Enabled = enable;
@@ -691,7 +678,7 @@ namespace BurnMedia
             buttonRemoveFiles.Enabled = enable;
             checkBoxEject.Enabled = enable;
             checkBoxCloseMedia.Enabled = enable;
-            textBoxLabel.Enabled = enable;
+            TextBox_VolumeLabel.Enabled = enable;
             comboBoxVerification.Enabled = enable;
         }
 
@@ -707,26 +694,26 @@ namespace BurnMedia
 
             if (burnData.task == BURN_MEDIA_TASK.BURN_MEDIA_TASK_FILE_SYSTEM)
             {
-                labelStatusText.Text = burnData.statusMessage;
+                Label_Status.Text = burnData.statusMessage;
             }
             else if (burnData.task == BURN_MEDIA_TASK.BURN_MEDIA_TASK_WRITING)
             {
                 switch (burnData.currentAction)
                 {
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_VALIDATING_MEDIA:
-                        labelStatusText.Text = "Validating current media...";
+                        Label_Status.Text = "Validating current media...";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_FORMATTING_MEDIA:
-                        labelStatusText.Text = "Formatting media...";
+                        Label_Status.Text = "Formatting media...";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_INITIALIZING_HARDWARE:
-                        labelStatusText.Text = "Initializing hardware...";
+                        Label_Status.Text = "Initializing hardware...";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_CALIBRATING_POWER:
-                        labelStatusText.Text = "Optimizing laser intensity...";
+                        Label_Status.Text = "Optimizing laser intensity...";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_WRITING_DATA:
@@ -735,26 +722,26 @@ namespace BurnMedia
                         if (writtenSectors > 0 && burnData.sectorCount > 0)
                         {
                             var percent = (int)((100 * writtenSectors) / burnData.sectorCount);
-                            labelStatusText.Text = string.Format("Progress: {0}%", percent);
+                            Label_Status.Text = string.Format("Progress: {0}%", percent);
                             statusProgressBar.Value = percent;
                         }
                         else
                         {
-                            labelStatusText.Text = "Progress 0%";
+                            Label_Status.Text = "Progress 0%";
                             statusProgressBar.Value = 0;
                         }
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_FINALIZATION:
-                        labelStatusText.Text = "Finalizing writing...";
+                        Label_Status.Text = "Finalizing writing...";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_COMPLETED:
-                        labelStatusText.Text = "Completed!";
+                        Label_Status.Text = "Completed!";
                         break;
 
                     case IMAPI_FORMAT2_DATA_WRITE_ACTION.IMAPI_FORMAT2_DATA_WRITE_ACTION_VERIFYING:
-                        labelStatusText.Text = "Verifying";
+                        Label_Status.Text = "Verifying";
                         break;
                 }
             }
@@ -782,7 +769,7 @@ namespace BurnMedia
                 fileSystemImage.ChooseImageDefaults(discRecorder);
                 fileSystemImage.FileSystemsToCreate =
                     FsiFileSystems.FsiFileSystemJoliet | FsiFileSystems.FsiFileSystemISO9660;
-                fileSystemImage.VolumeName = textBoxLabel.Text;
+                fileSystemImage.VolumeName = TextBox_VolumeLabel.Text;
 
                 fileSystemImage.Update += fileSystemImage_Update;
 
@@ -834,7 +821,7 @@ namespace BurnMedia
             }
             catch (COMException exception)
             {
-                MessageBox.Show(this, exception.Message, "Create File System Error", 
+                MessageBox.Show(this, exception.Message, "Create File System Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dataStream = null;
                 return false;
@@ -847,7 +834,7 @@ namespace BurnMedia
                 }
             }
 
-	        return true;
+            return true;
         }
 
         /// <summary>
@@ -858,7 +845,7 @@ namespace BurnMedia
         /// <param name="copiedSectors"></param>
         /// <param name="totalSectors"></param>
         void fileSystemImage_Update([In, MarshalAs(UnmanagedType.IDispatch)] object sender,
-            [In, MarshalAs(UnmanagedType.BStr)]string currentFile, [In] int copiedSectors, [In] int totalSectors)
+            [In, MarshalAs(UnmanagedType.BStr)] string currentFile, [In] int copiedSectors, [In] int totalSectors)
         {
             var percentProgress = 0;
             if (copiedSectors > 0 && totalSectors > 0)
@@ -869,13 +856,13 @@ namespace BurnMedia
             if (!string.IsNullOrEmpty(currentFile))
             {
                 var fileInfo = new FileInfo(currentFile);
-                _burnData.statusMessage = "Adding \"" + fileInfo.Name + "\" to image...";
+                BurnData.statusMessage = "Adding \"" + fileInfo.Name + "\" to image...";
 
                 //
                 // report back to the ui
                 //
-                _burnData.task = BURN_MEDIA_TASK.BURN_MEDIA_TASK_FILE_SYSTEM;
-                backgroundBurnWorker.ReportProgress(percentProgress, _burnData);
+                BurnData.task = BURN_MEDIA_TASK.BURN_MEDIA_TASK_FILE_SYSTEM;
+                backgroundBurnWorker.ReportProgress(percentProgress, BurnData);
             }
 
         }
@@ -984,11 +971,11 @@ namespace BurnMedia
             var font = new Font(FontFamily.GenericSansSerif, 11);
 
             var stringFormat = new StringFormat
-                {
-                    LineAlignment = StringAlignment.Center,
-                    Alignment = StringAlignment.Near,
-                    Trimming = StringTrimming.EllipsisCharacter
-                };
+            {
+                LineAlignment = StringAlignment.Center,
+                Alignment = StringAlignment.Near,
+                Trimming = StringTrimming.EllipsisCharacter
+            };
 
             e.Graphics.DrawString(mediaItem.ToString(), font, new SolidBrush(e.ForeColor),
                 rectF, stringFormat);
@@ -1004,7 +991,7 @@ namespace BurnMedia
         /// <param name="e"></param>
         private void buttonFormat_Click(object sender, EventArgs e)
         {
-            if (devicesComboBox.SelectedIndex == -1)
+            if (ComboBox_Devices.SelectedIndex == -1)
             {
                 return;
             }
@@ -1013,7 +1000,7 @@ namespace BurnMedia
             EnableFormatUI(false);
 
             var discRecorder =
-                (IDiscRecorder2)devicesComboBox.Items[devicesComboBox.SelectedIndex];
+                (IDiscRecorder2)ComboBox_Devices.Items[ComboBox_Devices.SelectedIndex];
             backgroundFormatWorker.RunWorkerAsync(discRecorder.ActiveDiscRecorder);
         }
 
@@ -1051,11 +1038,11 @@ namespace BurnMedia
                 // Create the IDiscFormat2Erase and set properties
                 //
                 discFormatErase = new MsftDiscFormat2Erase
-                    {
-                        Recorder = discRecorder,
-                        ClientName = ClientName,
-                        FullErase = !checkBoxQuickFormat.Checked
-                    };
+                {
+                    Recorder = discRecorder,
+                    ClientName = ClientName,
+                    FullErase = !checkBoxQuickFormat.Checked
+                };
 
                 //
                 // Setup the Update progress event handler
