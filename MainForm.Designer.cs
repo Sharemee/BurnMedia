@@ -38,7 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.labelTotalSize = new System.Windows.Forms.Label();
             this.progressBarCapacity = new System.Windows.Forms.ProgressBar();
-            this.buttonFormat = new System.Windows.Forms.Button();
+            this.Btn_Format = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageBurn = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -63,7 +63,7 @@
             this.checkBoxQuickFormat = new System.Windows.Forms.CheckBox();
             this.checkBoxEjectFormat = new System.Windows.Forms.CheckBox();
             this.formatProgressBar = new System.Windows.Forms.ProgressBar();
-            this.labelFormatStatusText = new System.Windows.Forms.Label();
+            this.Label_FormatStatus = new System.Windows.Forms.Label();
             this.backgroundFormatWorker = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.tabPageBurn.SuspendLayout();
@@ -139,15 +139,15 @@
             this.progressBarCapacity.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBarCapacity.TabIndex = 8;
             // 
-            // buttonFormat
+            // Btn_Format
             // 
-            this.buttonFormat.Location = new System.Drawing.Point(244, 93);
-            this.buttonFormat.Name = "buttonFormat";
-            this.buttonFormat.Size = new System.Drawing.Size(83, 27);
-            this.buttonFormat.TabIndex = 10;
-            this.buttonFormat.Text = "&Format Disc";
-            this.buttonFormat.UseVisualStyleBackColor = true;
-            this.buttonFormat.Click += new System.EventHandler(this.buttonFormat_Click);
+            this.Btn_Format.Location = new System.Drawing.Point(244, 93);
+            this.Btn_Format.Name = "Btn_Format";
+            this.Btn_Format.Size = new System.Drawing.Size(83, 27);
+            this.Btn_Format.TabIndex = 10;
+            this.Btn_Format.Text = "&Format Disc";
+            this.Btn_Format.UseVisualStyleBackColor = true;
+            this.Btn_Format.Click += new System.EventHandler(this.Btn_Format_Click);
             // 
             // tabControl1
             // 
@@ -372,8 +372,8 @@
             this.tabPageFormat.Controls.Add(this.checkBoxQuickFormat);
             this.tabPageFormat.Controls.Add(this.checkBoxEjectFormat);
             this.tabPageFormat.Controls.Add(this.formatProgressBar);
-            this.tabPageFormat.Controls.Add(this.labelFormatStatusText);
-            this.tabPageFormat.Controls.Add(this.buttonFormat);
+            this.tabPageFormat.Controls.Add(this.Label_FormatStatus);
+            this.tabPageFormat.Controls.Add(this.Btn_Format);
             this.tabPageFormat.Location = new System.Drawing.Point(4, 22);
             this.tabPageFormat.Name = "tabPageFormat";
             this.tabPageFormat.Padding = new System.Windows.Forms.Padding(3);
@@ -413,14 +413,14 @@
             this.formatProgressBar.Size = new System.Drawing.Size(318, 15);
             this.formatProgressBar.TabIndex = 13;
             // 
-            // labelFormatStatusText
+            // Label_FormatStatus
             // 
-            this.labelFormatStatusText.Location = new System.Drawing.Point(125, 148);
-            this.labelFormatStatusText.Name = "labelFormatStatusText";
-            this.labelFormatStatusText.Size = new System.Drawing.Size(321, 51);
-            this.labelFormatStatusText.TabIndex = 11;
-            this.labelFormatStatusText.Text = "status";
-            this.labelFormatStatusText.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.Label_FormatStatus.Location = new System.Drawing.Point(125, 148);
+            this.Label_FormatStatus.Name = "Label_FormatStatus";
+            this.Label_FormatStatus.Size = new System.Drawing.Size(321, 51);
+            this.Label_FormatStatus.TabIndex = 11;
+            this.Label_FormatStatus.Text = "status";
+            this.Label_FormatStatus.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // backgroundFormatWorker
             // 
@@ -469,7 +469,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelTotalSize;
         private System.Windows.Forms.ProgressBar progressBarCapacity;
-        private System.Windows.Forms.Button buttonFormat;
+        private System.Windows.Forms.Button Btn_Format;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageBurn;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -490,7 +490,7 @@
         private System.Windows.Forms.ProgressBar statusProgressBar;
         private System.Windows.Forms.CheckBox checkBoxEjectFormat;
         private System.Windows.Forms.ProgressBar formatProgressBar;
-        private System.Windows.Forms.Label labelFormatStatusText;
+        private System.Windows.Forms.Label Label_FormatStatus;
         private System.Windows.Forms.CheckBox checkBoxQuickFormat;
         private System.Windows.Forms.Label labelMediaType;
         private System.Windows.Forms.Button buttonDetectMedia;

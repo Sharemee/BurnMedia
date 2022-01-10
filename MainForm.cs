@@ -75,7 +75,7 @@ namespace BurnMedia
             TextBox_VolumeLabel.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
             Label_Status.Text = string.Empty;
-            labelFormatStatusText.Text = string.Empty;
+            Label_FormatStatus.Text = string.Empty;
 
             //
             // Select no verification, by default
@@ -401,18 +401,15 @@ namespace BurnMedia
                 }
             }
 
-
             UpdateCapacity();
         }
 
         /// <summary>
-        /// Updates the capacity progressbar
+        /// Updates the capacity progressbar|更新容量进度条
         /// </summary>
         private void UpdateCapacity()
         {
-            //
             // Get the text for the Max Size
-            //
             if (_totalDiscSize == 0)
             {
                 labelTotalSize.Text = "0MB";
@@ -423,10 +420,8 @@ namespace BurnMedia
                 string.Format("{0}MB", _totalDiscSize / 1000000) :
                 string.Format("{0:F2}GB", (float)_totalDiscSize / 1000000000.0);
 
-            //
             // Calculate the size of the files
-            //
-            Int64 totalMediaSize = 0;
+            long totalMediaSize = 0;
             foreach (IMediaItem mediaItem in listBoxFiles.Items)
             {
                 totalMediaSize += mediaItem.SizeOnDisc;
@@ -983,13 +978,13 @@ namespace BurnMedia
         #endregion
 
 
-        #region Format/Erase the Disc
+        #region Format/Erase the Disc|格式化/擦除光盘
         /// <summary>
         /// The user has clicked the "Format" button
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void buttonFormat_Click(object sender, EventArgs e)
+        private void Btn_Format_Click(object sender, EventArgs e)
         {
             if (ComboBox_Devices.SelectedIndex == -1)
             {
@@ -1010,7 +1005,7 @@ namespace BurnMedia
         /// <param name="enable"></param>
         void EnableFormatUI(bool enable)
         {
-            buttonFormat.Enabled = enable;
+            Btn_Format.Enabled = enable;
             checkBoxEjectFormat.Enabled = enable;
             checkBoxQuickFormat.Enabled = enable;
         }
@@ -1116,13 +1111,13 @@ namespace BurnMedia
 
         private void backgroundFormatWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            labelFormatStatusText.Text = string.Format("Formatting {0}%...", e.ProgressPercentage);
+            Label_FormatStatus.Text = string.Format("Formatting {0}%...", e.ProgressPercentage);
             formatProgressBar.Value = e.ProgressPercentage;
         }
 
         private void backgroundFormatWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            labelFormatStatusText.Text = (int)e.Result == 0 ?
+            Label_FormatStatus.Text = (int)e.Result == 0 ?
                 "Finished Formatting Disc!" : "Error Formatting Disc!";
 
             formatProgressBar.Value = 0;
