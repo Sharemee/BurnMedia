@@ -44,7 +44,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.statusProgressBar = new System.Windows.Forms.ProgressBar();
             this.Label_Status = new System.Windows.Forms.Label();
-            this.buttonBurn = new System.Windows.Forms.Button();
+            this.BtnBurn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.labelMediaType = new System.Windows.Forms.Label();
             this.buttonDetectMedia = new System.Windows.Forms.Button();
@@ -55,10 +55,10 @@
             this.checkBoxCloseMedia = new System.Windows.Forms.CheckBox();
             this.TextBox_VolumeLabel = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.buttonRemoveFiles = new System.Windows.Forms.Button();
-            this.buttonAddFolders = new System.Windows.Forms.Button();
-            this.buttonAddFiles = new System.Windows.Forms.Button();
-            this.listBoxFiles = new System.Windows.Forms.ListBox();
+            this.BtnRemoveFiles = new System.Windows.Forms.Button();
+            this.BtnAddFolders = new System.Windows.Forms.Button();
+            this.BtnAddFiles = new System.Windows.Forms.Button();
+            this.ListBox_Files = new System.Windows.Forms.ListBox();
             this.tabPageFormat = new System.Windows.Forms.TabPage();
             this.checkBoxQuickFormat = new System.Windows.Forms.CheckBox();
             this.checkBoxEjectFormat = new System.Windows.Forms.CheckBox();
@@ -177,7 +177,7 @@
             // 
             this.groupBox3.Controls.Add(this.statusProgressBar);
             this.groupBox3.Controls.Add(this.Label_Status);
-            this.groupBox3.Controls.Add(this.buttonBurn);
+            this.groupBox3.Controls.Add(this.BtnBurn);
             this.groupBox3.Location = new System.Drawing.Point(359, 133);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(245, 143);
@@ -201,15 +201,15 @@
             this.Label_Status.Text = "status";
             this.Label_Status.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // buttonBurn
+            // BtnBurn
             // 
-            this.buttonBurn.Location = new System.Drawing.Point(84, 85);
-            this.buttonBurn.Name = "buttonBurn";
-            this.buttonBurn.Size = new System.Drawing.Size(88, 28);
-            this.buttonBurn.TabIndex = 6;
-            this.buttonBurn.Text = "&Burn";
-            this.buttonBurn.UseVisualStyleBackColor = true;
-            this.buttonBurn.Click += new System.EventHandler(this.buttonBurn_Click);
+            this.BtnBurn.Location = new System.Drawing.Point(84, 85);
+            this.BtnBurn.Name = "BtnBurn";
+            this.BtnBurn.Size = new System.Drawing.Size(88, 28);
+            this.BtnBurn.TabIndex = 6;
+            this.BtnBurn.Text = "&Burn";
+            this.BtnBurn.UseVisualStyleBackColor = true;
+            this.BtnBurn.Click += new System.EventHandler(this.buttonBurn_Click);
             // 
             // groupBox2
             // 
@@ -251,10 +251,10 @@
             this.groupBox1.Controls.Add(this.checkBoxCloseMedia);
             this.groupBox1.Controls.Add(this.TextBox_VolumeLabel);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.buttonRemoveFiles);
-            this.groupBox1.Controls.Add(this.buttonAddFolders);
-            this.groupBox1.Controls.Add(this.buttonAddFiles);
-            this.groupBox1.Controls.Add(this.listBoxFiles);
+            this.groupBox1.Controls.Add(this.BtnRemoveFiles);
+            this.groupBox1.Controls.Add(this.BtnAddFolders);
+            this.groupBox1.Controls.Add(this.BtnAddFiles);
+            this.groupBox1.Controls.Add(this.ListBox_Files);
             this.groupBox1.Location = new System.Drawing.Point(11, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(337, 270);
@@ -325,47 +325,47 @@
             this.label2.TabIndex = 4;
             this.label2.Text = "Volume Label:";
             // 
-            // buttonRemoveFiles
+            // BtnRemoveFiles
             // 
-            this.buttonRemoveFiles.Location = new System.Drawing.Point(218, 145);
-            this.buttonRemoveFiles.Name = "buttonRemoveFiles";
-            this.buttonRemoveFiles.Size = new System.Drawing.Size(106, 25);
-            this.buttonRemoveFiles.TabIndex = 3;
-            this.buttonRemoveFiles.Text = "Remove File(s)...";
-            this.buttonRemoveFiles.UseVisualStyleBackColor = true;
-            this.buttonRemoveFiles.Click += new System.EventHandler(this.buttonRemoveFiles_Click);
+            this.BtnRemoveFiles.Location = new System.Drawing.Point(218, 145);
+            this.BtnRemoveFiles.Name = "BtnRemoveFiles";
+            this.BtnRemoveFiles.Size = new System.Drawing.Size(106, 25);
+            this.BtnRemoveFiles.TabIndex = 3;
+            this.BtnRemoveFiles.Text = "Remove File(s)";
+            this.BtnRemoveFiles.UseVisualStyleBackColor = true;
+            this.BtnRemoveFiles.Click += new System.EventHandler(this.buttonRemoveFiles_Click);
             // 
-            // buttonAddFolders
+            // BtnAddFolders
             // 
-            this.buttonAddFolders.Location = new System.Drawing.Point(107, 145);
-            this.buttonAddFolders.Name = "buttonAddFolders";
-            this.buttonAddFolders.Size = new System.Drawing.Size(98, 25);
-            this.buttonAddFolders.TabIndex = 2;
-            this.buttonAddFolders.Text = "Add Folders...";
-            this.buttonAddFolders.UseVisualStyleBackColor = true;
-            this.buttonAddFolders.Click += new System.EventHandler(this.buttonAddFolders_Click);
+            this.BtnAddFolders.Location = new System.Drawing.Point(107, 145);
+            this.BtnAddFolders.Name = "BtnAddFolders";
+            this.BtnAddFolders.Size = new System.Drawing.Size(98, 25);
+            this.BtnAddFolders.TabIndex = 2;
+            this.BtnAddFolders.Text = "Add Folders";
+            this.BtnAddFolders.UseVisualStyleBackColor = true;
+            this.BtnAddFolders.Click += new System.EventHandler(this.buttonAddFolders_Click);
             // 
-            // buttonAddFiles
+            // BtnAddFiles
             // 
-            this.buttonAddFiles.Location = new System.Drawing.Point(10, 145);
-            this.buttonAddFiles.Name = "buttonAddFiles";
-            this.buttonAddFiles.Size = new System.Drawing.Size(84, 25);
-            this.buttonAddFiles.TabIndex = 1;
-            this.buttonAddFiles.Text = "Add Files...";
-            this.buttonAddFiles.UseVisualStyleBackColor = true;
-            this.buttonAddFiles.Click += new System.EventHandler(this.buttonAddFiles_Click);
+            this.BtnAddFiles.Location = new System.Drawing.Point(10, 145);
+            this.BtnAddFiles.Name = "BtnAddFiles";
+            this.BtnAddFiles.Size = new System.Drawing.Size(84, 25);
+            this.BtnAddFiles.TabIndex = 1;
+            this.BtnAddFiles.Text = "Add Files";
+            this.BtnAddFiles.UseVisualStyleBackColor = true;
+            this.BtnAddFiles.Click += new System.EventHandler(this.buttonAddFiles_Click);
             // 
-            // listBoxFiles
+            // ListBox_Files
             // 
-            this.listBoxFiles.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.listBoxFiles.FormattingEnabled = true;
-            this.listBoxFiles.ItemHeight = 24;
-            this.listBoxFiles.Location = new System.Drawing.Point(10, 18);
-            this.listBoxFiles.Name = "listBoxFiles";
-            this.listBoxFiles.Size = new System.Drawing.Size(315, 100);
-            this.listBoxFiles.TabIndex = 0;
-            this.listBoxFiles.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBoxFiles_DrawItem);
-            this.listBoxFiles.SelectedIndexChanged += new System.EventHandler(this.listBoxFiles_SelectedIndexChanged);
+            this.ListBox_Files.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.ListBox_Files.FormattingEnabled = true;
+            this.ListBox_Files.ItemHeight = 24;
+            this.ListBox_Files.Location = new System.Drawing.Point(10, 18);
+            this.ListBox_Files.Name = "ListBox_Files";
+            this.ListBox_Files.Size = new System.Drawing.Size(315, 100);
+            this.ListBox_Files.TabIndex = 0;
+            this.ListBox_Files.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.ListBox_Files_DrawItem);
+            this.ListBox_Files.SelectedIndexChanged += new System.EventHandler(this.ListBox_Files_SelectedIndexChanged);
             // 
             // tabPageFormat
             // 
@@ -477,11 +477,11 @@
         private System.Windows.Forms.CheckBox checkBoxCloseMedia;
         private System.Windows.Forms.TextBox TextBox_VolumeLabel;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button buttonRemoveFiles;
-        private System.Windows.Forms.Button buttonAddFolders;
-        private System.Windows.Forms.Button buttonAddFiles;
-        private System.Windows.Forms.ListBox listBoxFiles;
-        private System.Windows.Forms.Button buttonBurn;
+        private System.Windows.Forms.Button BtnRemoveFiles;
+        private System.Windows.Forms.Button BtnAddFolders;
+        private System.Windows.Forms.Button BtnAddFiles;
+        private System.Windows.Forms.ListBox ListBox_Files;
+        private System.Windows.Forms.Button BtnBurn;
         private System.Windows.Forms.TabPage tabPageFormat;
         private System.ComponentModel.BackgroundWorker backgroundFormatWorker;
         private System.Windows.Forms.GroupBox groupBox2;

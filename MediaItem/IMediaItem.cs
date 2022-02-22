@@ -4,6 +4,8 @@
 // by Eric Haddan
 //
 using System;
+using System.Drawing;
+
 using IMAPI2.Interop;
 
 
@@ -19,14 +21,18 @@ namespace IMAPI2.MediaItem
         /// <summary>
         /// Returns the size of the file or directory to the next largest sector
         /// </summary>
-        Int64 SizeOnDisc { get; }
+        long SizeOnDisc { get; }
 
         /// <summary>
         /// Returns the Icon of the file or directory
         /// </summary>
-        System.Drawing.Image FileIconImage { get; }
+        Image FileIconImage { get; }
 
-        // Adds the file or directory to the directory item, usually the root.
+        /// <summary>
+        /// Adds the file or directory to the directory item, usually the root.
+        /// </summary>
+        /// <param name="rootItem"></param>
+        /// <returns></returns>
         bool AddToFileSystem(IFsiDirectoryItem rootItem);
     }
 }

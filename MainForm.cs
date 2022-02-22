@@ -16,7 +16,7 @@ namespace BurnMedia
     {
         private const string ClientName = "BurnMedia";
 
-        long _totalDiscSize;
+        private long _totalDiscSize;
 
         private bool _isBurning;
         private bool _isFormatting;
@@ -422,7 +422,7 @@ namespace BurnMedia
 
             // Calculate the size of the files
             long totalMediaSize = 0;
-            foreach (IMediaItem mediaItem in listBoxFiles.Items)
+            foreach (IMediaItem mediaItem in ListBox_Files.Items)
             {
                 totalMediaSize += mediaItem.SizeOnDisc;
             }
@@ -467,7 +467,7 @@ namespace BurnMedia
 
             if (_isBurning)
             {
-                buttonBurn.Enabled = false;
+                BtnBurn.Enabled = false;
                 backgroundBurnWorker.CancelAsync();
             }
             else
@@ -653,7 +653,7 @@ namespace BurnMedia
 
             _isBurning = false;
             EnableBurnUI(true);
-            buttonBurn.Enabled = true;
+            BtnBurn.Enabled = true;
         }
 
         /// <summary>
@@ -662,15 +662,15 @@ namespace BurnMedia
         /// <param name="enable"></param>
         void EnableBurnUI(bool enable)
         {
-            buttonBurn.Text = enable ? "&Burn" : "&Cancel";
+            BtnBurn.Text = enable ? "&Burn" : "&Cancel";
             buttonDetectMedia.Enabled = enable;
 
             ComboBox_Devices.Enabled = enable;
-            listBoxFiles.Enabled = enable;
+            ListBox_Files.Enabled = enable;
 
-            buttonAddFiles.Enabled = enable;
-            buttonAddFolders.Enabled = enable;
-            buttonRemoveFiles.Enabled = enable;
+            BtnAddFiles.Enabled = enable;
+            BtnAddFolders.Enabled = enable;
+            BtnRemoveFiles.Enabled = enable;
             checkBoxEject.Enabled = enable;
             checkBoxCloseMedia.Enabled = enable;
             TextBox_VolumeLabel.Enabled = enable;
@@ -747,7 +747,7 @@ namespace BurnMedia
         /// </summary>
         private void EnableBurnButton()
         {
-            buttonBurn.Enabled = (listBoxFiles.Items.Count > 0);
+            BtnBurn.Enabled = (ListBox_Files.Items.Count > 0);
         }
 
 
@@ -785,7 +785,7 @@ namespace BurnMedia
                 //
                 // Add Files and Directories to File System Image
                 //
-                foreach (IMediaItem mediaItem in listBoxFiles.Items)
+                foreach (IMediaItem mediaItem in ListBox_Files.Items)
                 {
                     //
                     // Check if we've cancelled
@@ -876,7 +876,7 @@ namespace BurnMedia
             if (openFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var fileItem = new FileItem(openFileDialog.FileName);
-                listBoxFiles.Items.Add(fileItem);
+                ListBox_Files.Items.Add(fileItem);
 
                 UpdateCapacity();
                 EnableBurnButton();
@@ -893,7 +893,7 @@ namespace BurnMedia
             if (folderBrowserDialog.ShowDialog(this) == DialogResult.OK)
             {
                 var directoryItem = new DirectoryItem(folderBrowserDialog.SelectedPath);
-                listBoxFiles.Items.Add(directoryItem);
+                ListBox_Files.Items.Add(directoryItem);
 
                 UpdateCapacity();
                 EnableBurnButton();
@@ -907,14 +907,14 @@ namespace BurnMedia
         /// <param name="e"></param>
         private void buttonRemoveFiles_Click(object sender, EventArgs e)
         {
-            var mediaItem = (IMediaItem)listBoxFiles.SelectedItem;
+            var mediaItem = (IMediaItem)ListBox_Files.SelectedItem;
             if (mediaItem == null)
                 return;
 
             if (MessageBox.Show("Are you sure you want to remove \"" + mediaItem + "\"?",
                 "Remove item", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                listBoxFiles.Items.Remove(mediaItem);
+                ListBox_Files.Items.Remove(mediaItem);
 
                 EnableBurnButton();
                 UpdateCapacity();
@@ -926,13 +926,13 @@ namespace BurnMedia
 
         #region File ListBox Events
         /// <summary>
-        /// The user has selected a file or folder
+        /// The user has selected a file or folder|用户选择了一个文件或文件夹
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listBoxFiles_SelectedIndexChanged(object sender, EventArgs e)
+        private void ListBox_Files_SelectedIndexChanged(object sender, EventArgs e)
         {
-            buttonRemoveFiles.Enabled = (listBoxFiles.SelectedIndex != -1);
+            BtnRemoveFiles.Enabled = ListBox_Files.SelectedIndex != -1;
         }
 
         /// <summary>
@@ -940,9 +940,9 @@ namespace BurnMedia
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void listBoxFiles_DrawItem(object sender, DrawItemEventArgs e)
+        private void ListBox_Files_DrawItem(object sender, DrawItemEventArgs e)
         {
-            var mediaItem = (IMediaItem)listBoxFiles.Items[e.Index];
+            var mediaItem = (IMediaItem)ListBox_Files.Items[e.Index];
             if (mediaItem == null)
             {
                 return;
