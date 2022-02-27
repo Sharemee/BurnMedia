@@ -1781,6 +1781,7 @@ namespace IMAPI2.Interop
         bool IsRecorderSupported(IDiscRecorder2 Recorder);
 
         // Determines if the current media in a supported recorder object supports the given format
+        // 确定支持的记录器对象中的当前媒体是否支持给定格式
         [DispId(0x801)]
         bool IsCurrentMediaSupported(IDiscRecorder2 Recorder);
 

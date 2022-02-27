@@ -48,6 +48,7 @@ namespace BurnMedia
                     return;
                 foreach (string uniqueRecorderId in discMaster)
                 {
+                    //具体驱动器
                     var discRecorder2 = new MsftDiscRecorder2();
                     discRecorder2.InitializeDiscRecorder(uniqueRecorderId);
 
@@ -332,13 +333,9 @@ namespace BurnMedia
 
         private void buttonDetectMedia_Click(object sender, EventArgs e)
         {
-            if (ComboBox_Devices.SelectedIndex == -1)
-            {
-                return;
-            }
+            if (ComboBox_Devices.SelectedIndex == -1) return;
 
-            var discRecorder =
-                (IDiscRecorder2)ComboBox_Devices.Items[ComboBox_Devices.SelectedIndex];
+            var discRecorder = (IDiscRecorder2)ComboBox_Devices.Items[ComboBox_Devices.SelectedIndex];
 
             MsftFileSystemImage fileSystemImage = null;
             MsftDiscFormat2Data discFormatData = null;

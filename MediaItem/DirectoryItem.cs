@@ -77,26 +77,17 @@ namespace IMAPI2.MediaItem
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Path
-        {
-            get
-            {
-                return m_directoryPath;
-            }
-        }
         private string m_directoryPath;
-
         /// <summary>
         /// 
         /// </summary>
-        public override string ToString()
-        {
-            return displayName;
-        }
+        public string Path { get => m_directoryPath; }
+
         private string displayName;
+        /// <summary>
+        /// 
+        /// </summary>
+        public override string ToString() => displayName;
 
         /// <summary>
         /// 
@@ -114,17 +105,12 @@ namespace IMAPI2.MediaItem
             }
         }
 
+        private System.Drawing.Image fileIconImage = null;
         /// <summary>
         /// 
         /// </summary>
-        public System.Drawing.Image FileIconImage
-        {
-            get
-            {
-                return fileIconImage;
-            }
-        }
-        private System.Drawing.Image fileIconImage = null;
+        public System.Drawing.Image FileIconImage { get => fileIconImage; }
+
 
         /// <summary>
         /// 
@@ -140,9 +126,7 @@ namespace IMAPI2.MediaItem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error adding folder",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error adding folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
         }
