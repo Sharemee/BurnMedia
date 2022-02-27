@@ -17,7 +17,7 @@ namespace IMAPI2.MediaItem
     /// </summary>
     class DirectoryItem : IMediaItem
     {
-        private List<IMediaItem> mediaItems = new List<IMediaItem>();
+        private readonly List<IMediaItem> mediaItems = new List<IMediaItem>();
 
         /// <summary>
         /// 
