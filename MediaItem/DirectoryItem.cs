@@ -92,11 +92,11 @@ namespace IMAPI2.MediaItem
         /// <summary>
         /// 
         /// </summary>
-        public Int64 SizeOnDisc
+        public long SizeOnDisc
         {
             get
             {
-                Int64 totalSize = 0;
+                long totalSize = 0;
                 foreach (IMediaItem mediaItem in mediaItems)
                 {
                     totalSize += mediaItem.SizeOnDisc;

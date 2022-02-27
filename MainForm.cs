@@ -376,7 +376,7 @@ namespace BurnMedia
                         fileSystemImage.ImportFileSystem();
                     }
 
-                    Int64 freeMediaBlocks = fileSystemImage.FreeMediaBlocks;
+                    long freeMediaBlocks = fileSystemImage.FreeMediaBlocks;
                     _totalDiscSize = 2048 * freeMediaBlocks;
                 }
             }

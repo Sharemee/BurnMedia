@@ -17,9 +17,9 @@ namespace IMAPI2.MediaItem
     /// </summary>
     class FileItem : IMediaItem
     {
-        private const Int64 SECTOR_SIZE = 2048;
+        private const long SECTOR_SIZE = 2048;
 
-        private Int64 m_fileLength = 0;
+        private long m_fileLength = 0;
 
         public FileItem(string path)
         {
@@ -62,7 +62,7 @@ namespace IMAPI2.MediaItem
         /// <summary>
         /// 
         /// </summary>
-        public Int64 SizeOnDisc
+        public long SizeOnDisc
         {
             get
             {
