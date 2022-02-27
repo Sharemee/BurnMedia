@@ -742,11 +742,7 @@ namespace BurnMedia
         /// <summary>
         /// Enable the Burn Button if items in the file listbox
         /// </summary>
-        private void EnableBurnButton()
-        {
-            BtnBurn.Enabled = (ListBox_Files.Items.Count > 0);
-        }
-
+        private void EnableBurnButton() => BtnBurn.Enabled = ListBox_Files.Items.Count > 0;
 
         #endregion
 
