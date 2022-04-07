@@ -1753,10 +1753,12 @@ namespace IMAPI2.Interop
         bool IsCurrentMediaSupported(IDiscRecorder2 Recorder);
 
         // Determines if the current media is reported as physically blank by the drive
+        // 确定当前介质是否被驱动器报告为物理空白
         [DispId(0x700)]
         bool MediaPhysicallyBlank { get; }
 
         // Attempts to determine if the media is blank using heuristics (mainly for DVD+RW and DVD-RAM media)
+        // 尝试使用试探法确定介质是否为空白（主要用于 DVD+RW 和 DVD-RAM 介质）
         [DispId(0x701)]
         bool MediaHeuristicallyBlank { get; }
 

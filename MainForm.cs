@@ -168,10 +168,6 @@ namespace BurnMedia
         {
             switch (mediaType)
             {
-                case IMAPI_MEDIA_PHYSICAL_TYPE.IMAPI_MEDIA_TYPE_UNKNOWN:
-                default:
-                    return "Unknown Media Type";
-
                 case IMAPI_MEDIA_PHYSICAL_TYPE.IMAPI_MEDIA_TYPE_CDROM:
                     return "CD-ROM";
 
@@ -228,6 +224,10 @@ namespace BurnMedia
 
                 case IMAPI_MEDIA_PHYSICAL_TYPE.IMAPI_MEDIA_TYPE_BDRE:
                     return "Blu-ray Rewritable media";
+
+                case IMAPI_MEDIA_PHYSICAL_TYPE.IMAPI_MEDIA_TYPE_UNKNOWN:
+                default:
+                    return "Unknown Media Type";
             }
         }
 
