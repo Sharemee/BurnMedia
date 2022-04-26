@@ -4,6 +4,7 @@
 // by Eric Haddan
 //
 using System;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -28,9 +29,9 @@ namespace IMAPI2.MediaItem
                 throw new FileNotFoundException("The file added to FileItem was not found!", path);
             }
 
-            filePath = path;
+            Path = path;
 
-            FileInfo fileInfo = new FileInfo(filePath);
+            FileInfo fileInfo = new FileInfo(Path);
             displayName = fileInfo.Name;
             m_fileLength = fileInfo.Length;
 
@@ -38,23 +39,20 @@ namespace IMAPI2.MediaItem
             // Get the File icon
             //
             SHFILEINFO shinfo = new SHFILEINFO();
-            IntPtr hImg = Win32.SHGetFileInfo(filePath, 0, ref shinfo,
-                (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON);
+            _ = Win32.SHGetFileInfo(Path, 0, ref shinfo, (uint)Marshal.SizeOf(shinfo), Win32.SHGFI_ICON | Win32.SHGFI_SMALLICON);
 
             if (shinfo.hIcon != null)
             {
                 //The icon is returned in the hIcon member of the shinfo struct
-                System.Drawing.IconConverter imageConverter = new System.Drawing.IconConverter();
-                System.Drawing.Icon icon = System.Drawing.Icon.FromHandle(shinfo.hIcon);
+                IconConverter imageConverter = new IconConverter();
+                Icon icon = Icon.FromHandle(shinfo.hIcon);
                 try
                 {
-                    fileIconImage = (System.Drawing.Image)
-                        imageConverter.ConvertTo(icon, typeof(System.Drawing.Image));
+                    fileIconImage = (Image)imageConverter.ConvertTo(icon, typeof(Image));
                 }
                 catch (NotSupportedException)
                 {
                 }
-
                 Win32.DestroyIcon(shinfo.hIcon);
             }
         }
@@ -78,26 +76,19 @@ namespace IMAPI2.MediaItem
         /// <summary>
         /// 
         /// </summary>
-        public string Path
-        {
-            get
-            {
-                return filePath;
-            }
-        }
-        private string filePath;
+        public string Path { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public System.Drawing.Image FileIconImage
+        public Image FileIconImage
         {
             get
             {
                 return fileIconImage;
             }
         }
-        private System.Drawing.Image fileIconImage = null;
+        private Image fileIconImage = null;
 
 
         /// <summary>
@@ -112,11 +103,9 @@ namespace IMAPI2.MediaItem
         public bool AddToFileSystem(IFsiDirectoryItem rootItem)
         {
             IStream stream = null;
-
             try
             {
-                Win32.SHCreateStreamOnFile(filePath, Win32.STGM_READ | Win32.STGM_SHARE_DENY_WRITE, ref stream);
-
+                Win32.SHCreateStreamOnFile(Path, Win32.STGM_READ | Win32.STGM_SHARE_DENY_WRITE, ref stream);
                 if (stream != null)
                 {
                     rootItem.AddFile(displayName, stream);
@@ -125,8 +114,7 @@ namespace IMAPI2.MediaItem
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error adding file",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error adding file", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -135,7 +123,6 @@ namespace IMAPI2.MediaItem
                     Marshal.FinalReleaseComObject(stream);
                 }
             }
-
             return false;
         }
     }
