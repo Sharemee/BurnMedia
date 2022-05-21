@@ -1843,7 +1843,10 @@ namespace IMAPI2.Interop
         [DispId(0x10c)]
         int LastWrittenAddressOfPreviousSession { get; }
 
-        // Prevent further additions to the file system
+        /// <summary>
+        /// Prevent further additions to the file system
+        /// </summary>
+        /// <remarks>防止进一步添加到文件系统</remarks>
         [DispId(0x10d)]
         bool ForceMediaToBeClosed { set; get; }
 
